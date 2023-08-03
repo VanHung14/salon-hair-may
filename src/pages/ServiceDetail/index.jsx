@@ -36,7 +36,7 @@ function ServiceDetail() {
         id: 1,
         name: 'Nguyễn Hữu Phước',
         price: 3453.0,
-        img: 'http://localhost:8080/img/2023-08-03_19-35-57.jpeg',
+        img: 'https://product.hstatic.net/1000181446/product/dv3_large.png',
         description: 'Phước đẹp trai',
         status: 0,
         imgDetails: [
@@ -65,7 +65,8 @@ function ServiceDetail() {
     }, []);
 
     const listImgs = useMemo(() => {
-        return (serviceDetail?.imgDetails || []).map((item) => item.img);
+        const listImages = (serviceDetail?.imgDetails || []).map((item) => item.img);
+        return [serviceDetail?.img, ...listImages];
     }, [serviceDetail]);
 
     const handlePrevClick = () => {
