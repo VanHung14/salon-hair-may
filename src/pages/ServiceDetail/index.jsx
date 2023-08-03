@@ -1,5 +1,5 @@
 import './ServiceDetail.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -31,15 +31,49 @@ function ServiceDetail() {
                 console.error('Error fetching service detail:', error);
             });
     };
+    // bỏ đoạn code 34 -> 61
+    const fakeData = {
+        id: 1,
+        name: 'Nguyễn Hữu Phước',
+        price: 3453.0,
+        img: 'http://localhost:8080/img/2023-08-03_19-35-57.jpeg',
+        description: 'Phước đẹp trai',
+        status: 0,
+        imgDetails: [
+            {
+                id: 1,
+                img: 'https://product.hstatic.net/1000181446/product/dv3_large.png',
+            },
+            {
+                id: 2,
+                img: 'https://product.hstatic.net/1000181446/product/hairstyle2_compact.png',
+            },
+            {
+                id: 3,
+                img: 'https://product.hstatic.net/1000181446/product/dv3_large.png',
+            },
+            {
+                id: 4,
+                img: 'https://product.hstatic.net/1000181446/product/hairstyle2_compact.png',
+            },
+        ],
+        comments: [],
+    };
 
-    const { imgDetails } = serviceDetail || {};
+    useEffect(() => {
+        setServiceDetail(fakeData);
+    }, []);
+
+    const listImgs = useMemo(() => {
+        return (serviceDetail?.imgDetails || []).map((item) => item.img);
+    }, [serviceDetail]);
 
     const handlePrevClick = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? imgDetails.length - 1 : prevIndex - 1));
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? listImgs.length - 1 : prevIndex - 1));
     };
 
     const handleNextClick = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === imgDetails.length - 1 ? 0 : prevIndex + 1));
+        setCurrentIndex((prevIndex) => (prevIndex === listImgs.length - 1 ? 0 : prevIndex + 1));
     };
 
     const handleItemClick = (index) => {
@@ -83,7 +117,7 @@ function ServiceDetail() {
             <div className="service-container">
                 <div className="service-content">
                     <div className="service-content__image">
-                        <img className="service-image" src={serviceDetail.img} alt={serviceDetail.name} />
+                        <img className="service-image" src={listImgs[currentIndex]} alt={`Image ${currentIndex + 1}`} />
                     </div>
                     <div className="list-images">
                         <button className="left-button" onClick={handlePrevClick}>
@@ -99,10 +133,10 @@ function ServiceDetail() {
                                 overflowX: 'scroll',
                             }}
                         >
-                            {imgDetails.map((imgDetail, index) => (
+                            {listImgs?.map((imgDetail, index) => (
                                 <img
                                     key={index}
-                                    src={imgDetail.img}
+                                    src={imgDetail}
                                     alt={`Image ${index + 1}`}
                                     style={{
                                         width: '150px',
@@ -120,8 +154,8 @@ function ServiceDetail() {
                         </button>
                     </div>
                     <div>
-                        <h1 className="service-title">{serviceDetail.name}</h1>
-                        <p>{serviceDetail.description}</p>
+                        <h1 className="service-title">{serviceDetail?.name}</h1>
+                        <p>{serviceDetail?.description}</p>
                     </div>
                 </div>
                 <div className="right-sider-bar">
@@ -137,11 +171,11 @@ function ServiceDetail() {
                             THÔNG TIN DỊCH VỤ
                         </h2>
                         <h3>Tên:</h3>
-                        <p>{serviceDetail.name}</p>
+                        <p>{serviceDetail?.name}</p>
                         <h3>Mô tả:</h3>
-                        <p>{serviceDetail.description}</p>
+                        <p>{serviceDetail?.description}</p>
                         <h3>Giá:</h3>
-                        <p>{serviceDetail.price}₫</p>
+                        <p>{serviceDetail?.price}₫</p>
                     </div>
                     <Button className="add-cart-button" onClick={() => navigate('/cart')}>
                         <AddShoppingCartIcon className="add-cart-icon" />
