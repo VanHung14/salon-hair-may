@@ -6,6 +6,7 @@ import Cart from '~/pages/Cart';
 import Login from '~/pages/Login/index';
 import Register from '~/pages/Register/index';
 import Branch from '~/pages/Admin/scenes/branch';
+import UserHistory from '~/pages/Admin/scenes/user-history';
 import Calendar from '~/pages/Admin/scenes/calendar/calendar';
 import Form from '~/pages/Admin/scenes/form/user';
 import FormService from '~/pages/Admin/scenes/form/service';
@@ -37,7 +38,8 @@ const publicRoutes = [
     { path: '/serviceExample', component: ServiceEx },
     { path: '/services/:id', component: ServiceDetail },
     { path: '/staff', component: Staff },
-    { path: '/branch', component: Branch, admin: true },
+    { path: '/branch', component: Branch },
+    { path: '/user-history', component: UserHistory },
     { path: '/dataService', component: DataService, admin: true },
     { path: '/formBranch', component: FormBranch, admin: true },
     { path: '/calendar', component: Calendar, admin: true },
